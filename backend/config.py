@@ -9,8 +9,8 @@ class Settings(BaseSettings):
     host: str = "0.0.0.0"
 
     # API Keys
-    anthropic_api_key: str
-    openai_api_key: str
+    anthropic_api_key: Optional[str] = None
+    openai_api_key: Optional[str] = None
     perplexity_api_key: Optional[str] = None
 
     # Report generation
