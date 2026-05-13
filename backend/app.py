@@ -47,6 +47,8 @@ async def health():
 @app.post("/api/report/brainstorm")
 async def start_brainstorm(request: BrainstormRequest):
     """Débuter une session de brainstorming"""
+    if not settings.anthropic_api_key:
+        raise HTTPException(status_code=500, detail="ANTHROPIC_API_KEY not configured")
     try:
         result = generator.start_brainstorming_session(request.initial_notes)
         return result
@@ -71,6 +73,8 @@ async def get_clarifications(request: BrainstormRequest):
 @app.post("/api/report/generate")
 async def generate_report(request: ReportRequest):
     """Générer le rapport complet"""
+    if not settings.anthropic_api_key:
+        raise HTTPException(status_code=500, detail="ANTHROPIC_API_KEY not configured")
     try:
         report = generator.generate_full_report(
             request.brainstorm_notes,
@@ -96,6 +100,9 @@ async def evaluate_completeness(request: BrainstormRequest):
 
 if __name__ == "__main__":
     import uvicorn
+    print("🚀 Rappokh API - Démarrage")
+    print(f"📍 http://{settings.host}:{settings.port}")
+    print(f"📚 Docs: http://{settings.host}:{settings.port}/docs")
     uvicorn.run(
         app,
         host=settings.host,
