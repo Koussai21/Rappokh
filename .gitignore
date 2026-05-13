@@ -216,3 +216,13 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Rappokh specific
+rapport_*.md
+rapport_*.docx
+rapport_*.pdf
+*.docx
+*.docxm
+generated_reports/
+temp_uploads/
+.DS_Store
