@@ -5,7 +5,15 @@ from typing import List
 
 class OpenAIIntegration:
     def __init__(self):
-        self.client = OpenAI(api_key=settings.openai_api_key)
+        self._client = None
+
+    @property
+    def client(self):
+        if self._client is None:
+            if not settings.openai_api_key:
+                raise ValueError("OPENAI_API_KEY not configured")
+            self._client = OpenAI(api_key=settings.openai_api_key)
+        return self._client
 
     def generate_clarification_questions(self, brainstorm_notes: str, current_gaps: List[str] = None) -> List[str]:
         """Générer des questions pour clarifier les informations manquantes"""

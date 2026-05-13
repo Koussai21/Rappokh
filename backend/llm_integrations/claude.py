@@ -4,7 +4,15 @@ from backend.config import settings
 
 class ClaudeIntegration:
     def __init__(self):
-        self.client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
+        self._client = None
+
+    @property
+    def client(self):
+        if self._client is None:
+            if not settings.anthropic_api_key:
+                raise ValueError("ANTHROPIC_API_KEY not configured")
+            self._client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
+        return self._client
 
     def understand_content(self, brainstorm_notes: str) -> dict:
         """Comprendre et structurer le contenu du rapport"""
